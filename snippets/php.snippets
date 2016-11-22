@@ -1,2 +1,12 @@
-snippet coucou "coucou"
+snippet route "route"
 	@route(${1:path}[${2:id}])$0
+snippet ormevent "orm"
+	@ORM\\${1:PrePersist:PreUpdate}
+snippet onetoone
+	@ORM\JoinColumn(name="${1:column_name}", referencedColumnName="${2:target_column_name}")
+snippet onetomany
+	@ORM\OneToMany(targetEntity="${0:target_entity}", mappedBy="${1:target_var}")
+snippet manytoone
+	@ORM\ManyToOne(targetEntity="${0:target_entity}", inversedBy="${1:target_var}")
+	@ORM\JoinColumn(name="${1:column_name}", referencedColumnName="${2:target_column_name}")
+

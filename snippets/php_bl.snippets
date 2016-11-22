@@ -1,0 +1,84 @@
+snippet index "index"
+	<?php
+
+	// A faire avant de charger BLModule...
+	$module = "${1:module}";
+	$path = "..";
+
+	require_once 'lib/BLModule.php';
+
+	$moduleObject = new BLModule($module, $path);
+
+	$actions[$module] = array(
+	    "index" => array (
+	        'Url'      => "$path/$module/index.php?action=index",
+	        'Right'    => $cright_read,
+	        'Condition'=> array ('None'),
+	    ),
+	);
+
+	$moduleObject->dispatch();
+
+snippet controller "controller"
+	<?php
+	// Delete useless imports
+	require_once 'lib/Model/BLModel.php';
+	require_once 'lib/Model/BLModelClient.php';
+	require_once 'lib/Model/BLModelInstance.php';
+	require_once('lib/Model/BLModelInterlocutor.php');
+	require_once 'lib/Model/BLModel${1:module_upper}.php';
+
+	/**
+	 * Module $1
+	 *
+	 */
+	class ${2:module_lower}Controller extends BLController
+	{
+	    /**
+	     * Page d'accueil
+	     * @return $2Controller
+	     */
+	    public function indexAction()
+	    {
+
+	        // trace
+	        if (!isset($_REQUEST['search'])) {
+	            $trace = $this->services->get('BLTrace');
+	            $trace->setModel(new BLModelTrace);
+	            $trace->trace($this->auth->auth, '$2');
+	        }
+
+	        // Récupération de l'id client connecté
+	        $uid = $this->auth->auth['uid'];
+	        $modelClient = new BLModelClient();
+	        $modelInterlocutor = new BLModelInterlocutor();
+	        $client = $modelClient->getByUserId($uid);
+	        $connectedInterlocutor = null;
+	        global $civility_list;
+
+	        // Le client est bien connecté
+	        if (!empty($client)) {
+
+	            // Récupération des formations du client
+	            $$2Model = new BLModel$1();
+
+	            $connectedInterlocutor = $modelInterlocutor->getByUserId($uid);
+
+	            // Récupération des variables déjà postées
+	            $variableNames = array('var1', 'var2');
+	            $previousVariables = $this->getSubmittedVariables($_POST, $variableNames);
+
+	        }
+
+	        // Formattage des erreurs
+	        $errorMsg = $this->getErrorsMessage();
+
+
+	        $this->view->setTitle("Berger-Levrault - Vos $2s");
+	        $this->view->displayIndex($errorMsg, $this->errors, $connectedInterlocutor, $previousVariables);
+
+
+	        $this->view->show();
+
+	        return $this;
+	    }
