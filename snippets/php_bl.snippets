@@ -82,3 +82,49 @@ snippet controller "controller"
 
 	        return $this;
 	    }
+	}
+
+snippet view "view"
+
+	<?php
+
+	class ${1:module_lower}View extends BLView
+	{
+
+		/**
+		 * @param $errorMsg currrent error message if any.
+		 * @param $errors current list of errors if any.
+		 * @param $connectedInterlocutor the current connected interlocutor.
+		 * @param $previousVariables the previous posted variables.
+		 */
+		public function displayIndex($errorMsg, $errors, $connectedInterlocutor, $previousVariables)
+		{
+			// Récupération des constantes
+			$this->display->add_block_file("content", "REQUEST_INDEX", "$1/index.tpl");
+
+			$this->display->set_current_block("MAIN_STYLESHHET");
+			$this->display->parseCurrentBlock();
+
+			$this->display->addCSS('style.css');
+			$this->display->addCSS('$1.css');
+			$this->display->addCSS('../components/errors/errors.css');
+			// TODO activate if needed
+			// $this->display->addCSS('jquery-ui.min.css');
+			// $this->display->addCSS('jquery-ui.structure.min.css');
+
+			$this->display->addJS('/javascript/jquery-1.10.2.js');
+			$this->display->addJS('/javascript/jquery-ui.min.js');
+			$this->display->addJS('/$1/$1.js');
+			$this->display->addJS('/components/utils/utils.js');
+			$this->display->addJS('/components/interlocutorSelect/interlocutorSelect.js');
+			$this->display->addJS('/components/errors/errors.js');
+
+
+			// TODO set variables to template
+			$this->display->setVariable('var1', 'var1');
+
+			// TODO set current block to parse
+			$this->display->setCurrentBlock('ROW');
+			$this->display->parseCurrentBlock();
+		}
+	}
