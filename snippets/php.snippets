@@ -9,4 +9,13 @@ snippet onetomany
 snippet manytoone
 	@ORM\ManyToOne(targetEntity="${0:target_entity}", inversedBy="${1:target_var}")
 	@ORM\JoinColumn(name="${1:column_name}", referencedColumnName="${2:target_column_name}")
-
+snippet setter
+	public function set${1:Foo}($${2:foo})
+	{
+		$this->$2 = $$2;
+	}
+snippet getter
+	public function get${1:Foo}()
+	{
+		return $this->${2:foo} = $$2;
+	}
