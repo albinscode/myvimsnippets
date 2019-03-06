@@ -8,14 +8,17 @@ snippet noteinline "noteinline"
 	[^${1:name}]
 
 snippet notedescription "notedescription"
-	[^${1:name}]
+	[^${1:name}]: ${2:description}
 
 snippet table "table"
 	| data1 | data2 |
 	|-------|-------|
 	| data1 | data2 |
+
 snippet image "image"
 	![${1:description}](${2:file})
 
+snippet image "imagewidth"
+	![${1:description}](${2:file}){ width=70% }
 
 
